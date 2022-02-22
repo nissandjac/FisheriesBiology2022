@@ -22,7 +22,7 @@ df <- load_data_seasons(nseason = 1, # Number of seasons
                         F0 = c(1,0),  # Fishing mortality in the two areas 
                         mortality = 'constant', # Mortality type. AR, constant
                         # Movement parameters 
-                        movemaxinit = c(0.3, .7), # Fraction of fish moving into the other cell
+                        movemaxinit = c(1, .2), # Fraction of fish moving into the other cell
                         R0_dist = c(0.1, .5) # A number between zero and 1 describing the fraction of R0 in a given area 
                         
                         
@@ -39,7 +39,7 @@ df.plot <- data.frame(time = rep(1:df$tEnd,2),
                       SSB = c(tmp$SSB[,1], tmp$SSB[,2]),
                       R = c(tmp$R.save[,1], tmp$R.save[,2]),
                       area = rep(c('fished','mpa'), each = df$tEnd)) %>% 
-  ggplot(aes(x = time, y = SSB, color = area))+geom_line()+theme_classic()+
+  ggplot(aes(x = time, y = SSB, color = area))+geom_line()+theme_classic()
 
 df.plot
 
