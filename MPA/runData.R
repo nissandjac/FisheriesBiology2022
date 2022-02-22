@@ -34,7 +34,8 @@ ShortCoord$ID<-row.names(ShortCoord)
 
 ShortCoord$rank <- Cleanmegacell[,which(names(Cleanmegacell)== stocknames[20])] # 
    
-dist <- ShortCoord %>% ggplot(aes(x=lon,y=lat, fill = rank)) + scale_fill_gradient(low="white", high="blue",name="Abundance")+
+dist <- ShortCoord %>% ggplot(aes(x=lon,y=lat, fill = rank)) + 
+  scale_fill_gradient(low="white", high="blue",name="Abundance")+
     theme(axis.title.x = element_blank(), axis.title.y = element_blank())+
     geom_raster()+ geom_tile(data=MPA_coord, aes(x=lon, y=lat),fill="#EEA47FFF")+
     geom_sf(data = land_shp_moll, inherit.aes = F)#+coord_sf(ylim = c(2726460.23, 2876760.23), xlim = c(8678495,  8554895), crs = prj)
