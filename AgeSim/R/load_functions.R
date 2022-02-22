@@ -1,0 +1,12 @@
+
+
+source('R/calcSSB0.R')
+source('R/run_agebased_model_true_Catch.R')
+source('R/load_data_seasons.R')
+source('R/load_data_future.R')
+source("R/getSelec.R")
+source('R/getF.R')
+source('R/runSPmodel.R')
+source('R/getUncertainty.R')
+source('R/getOM_MSY.R')
+source('R/getOM_MSY_deter.R')
