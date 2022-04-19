@@ -112,7 +112,7 @@ for(i in 1:length(protec)){
 
 p1 <- ggplot(df.out[df.out$time == 50 & df.out$model == 'fished area',], 
        aes(x = F0, y = Catch, color = as.factor(protec)))+geom_line()+theme_classic()
-  
+  p1
 
 
 p1 
