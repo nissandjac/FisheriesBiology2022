@@ -7,20 +7,16 @@
 # Please discuss and answer the 10 questions highlighted throughout the code!
 #######################################
 
-## Clean Environment and set WD
-rm(list=ls())
-setwd("C:/Users/maali/Desktop/Projects, Workshops and Courses/BIOC3 Summer course 2016/FD") # Set to specified WD
-setwd("C:/Users/loufl/Desktop/Undervisning")# Set to specified WD
 ## Install packages
-install.packages("FD")
-install.packages("vegan")
-install.packages("reshape2")
-install.packages("FactoMineR")
-install.packages("mapplots")
-install.packages("maps")
-install.packages("mapdata")
-install.packages("mgcv")
-install.packages("qqplot2")
+# install.packages("FD")
+# install.packages("vegan")
+# install.packages("reshape2")
+# install.packages("FactoMineR")
+# install.packages("mapplots")
+# install.packages("maps")
+# install.packages("mapdata")
+# install.packages("mgcv")
+# install.packages("qqplot2")
 
 # Load packages
 library(FD) ## Calculate functional diversity indices
@@ -38,12 +34,20 @@ rbPal <- colorRampPalette(c('blue','red'))
 
 ##### Community data ####
 ##### Species presence/abundance per area
-##### Example: Mean Species abundance (catch per unit effort) in each ICES squares in the Baltic Sea, for an aggragated period 2003-2014
+##### Example: Mean Species abundance (catch per unit effort) in each ICES squares in the Baltic Sea, 
+# for an aggragated period 2003-2014
 communities<-read.table("communities.csv", header=T)
 head(communities)
 
 #################################
-# 1. What are the columns of the community data table? What sources of bias could affect the results (if not standardised as presently done)? 
+# 1. What are the columns of the community data table? 
+# What sources of bias could affect the results (if not standardised as presently done)? 
+
+# 
+# Species - mean length (I assumed meaned over hausl. Is selectivity taken into account?) Haul sum: Maybe number of hauls
+# Cpue mean average cpue over hauls, biomass = cpue * weight. 
+
+
 #################################
 
 ##### Traits data #### Diet/Mean length/Age at 50% maturity/Fecundity/Shape of caudal fin (proxy for activity)/body shape
@@ -51,7 +55,14 @@ traits<-read.table("Species_Traits.csv", header=T)
 head(traits)
 
 #################################
-# 2. What are the columns of the trait matrix and what do they represent? What sources of bias could one expect in this type of data?
+# 2. What are the columns of the trait matrix and what do they represent? 
+# What sources of bias could one expect in this type of data?
+
+# Large interspecies variety. Lmean and a50 is not a trait it's a life history parameter. Fecundity and shapes are good traits, but 
+# may rarely describe stuff. Diet can be a trait.  
+
+
+
 #############################
 
 #### Calculate Functional diversity indices ####
@@ -158,6 +169,10 @@ with(FD, points(lon, lat, pch=21, cex=2.1, bg=rbPal(6)[as.numeric(cut(CWM.Lmean,
 
 #################################
 # 4. What are the main spatial patterns of the different indices?
+
+
+# Most richness in western baltic in terms of species / functional. 
+# Mean length highest in the eastern. Why? Usually they're smnaller in the more saline sea. Is this weighted by abundance? 
 #################################
 
 
@@ -180,11 +195,17 @@ head(FD)
 # or do not increase largely the model fit (AIC)
 
 ## Species Richness
-gam1<-gam(nbsp~s(Depth, k=3)+s(Oxygen,k=3)+s(Depth.sd,k=3)+s(Salinity,k=3)+s(Temperature,k=3)+ s(Habitat.dominance, k=3), na.action=na.exclude, data=FD,select=TRUE, gamma=1.4)
+gam1<-gam(nbsp~s(Depth, k=3)+s(Oxygen,k=3)+
+            s(Depth.sd,k=3)+s(Salinity,k=3)+
+            s(Temperature,k=3)+ 
+            s(Habitat.dominance, k=3), na.action=na.exclude, data=FD,select=TRUE, gamma=1.4)
 summary(gam1)
 AIC(gam1)
 
-gam1<-gam(nbsp~s(Depth, k=3)+s(Salinity,k=3)+s(Temperature,k=3)+ s(Habitat.dominance, k=3), na.action=na.exclude, data=FD,select=TRUE, gamma=1.4)
+gam1<-gam(nbsp~s(Depth, k=3)+
+            s(Salinity,k=3)+
+            s(Temperature,k=3)+ 
+            s(Habitat.dominance, k=3), na.action=na.exclude, data=FD,select=TRUE, gamma=1.4)
 summary(gam1)
 AIC(gam1)
 
@@ -224,7 +245,7 @@ FR <- dbFD(traits, communities.mat, stand.FRic=T) ## Calculate the "observed" co
 FR<-data.frame(SR=FR$nbsp, FRic=FR$FRic)  ## Store only SR and FR
 
 #### Calculate the Functional richness of each resulting randomization (1000 randomized matrix)
-# Let´s use only 10 iterations to save some time....
+# Let?s use only 10 iterations to save some time....
 
 null<-permatswap(communities.mat, times=10)  ## To create the null model, we randomize the species x site matrix, 
                                      ## by accounting for row (sites) sums and columns (species) sums
